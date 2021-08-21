@@ -1,86 +1,39 @@
-//this function for memory
-function getInputMemory(memory, isIncrease) {
-    const inputMemory = document.getElementById('memory');
-    inputMemory.innerText = memory;
-    const totalPrice = document.getElementById('total-price');
-    const totalPriceText = totalPrice.innerText
-    if (isIncrease == true) {
-        totalPrice.innerText = 1299;
-    }
-    else if (isIncrease == false) {
-        totalPrice.innerText = 1479;
-    }
-}
-//8gb memory button
-document.getElementById('8gb-memory').addEventListener('click', function () {
-    getInputMemory(0, true)
-})
-//16gb memory button
-document.getElementById('16gb-memory').addEventListener('click', function () {
-    getInputMemory(180, false)
-
-})
-
-//this function for storage 
-function getInputStorage(storage, price, isIncrease) {
-    const inputStorage = document.getElementById(storage);
-    inputStorage.innerText = price;
-    const totalPrice = document.getElementById('total-price');
-    const totalPriceText = totalPrice.innerText
-    if (isIncrease == true && price == 0) {
-        totalPrice.innerText = 1299;
-    }
-    else if (isIncrease == false && price == 100) {
-        totalPrice.innerText = 1399;
-    }
-    else if (isIncrease == false && price == 180) {
-        totalPrice.innerText = 1479;
-    }
-
+function updatePrice(inputId, cost) {
+    const inputIdText = document.getElementById(inputId);
+    inputIdText.innerText = cost;
+    calculatePrice()
 }
 
-//256gb ssd card
-document.getElementById('256gb-storage').addEventListener('click', function () {
-    getInputStorage('storage', 0, true)
-})
-//512gb ssd card
-document.getElementById('512gb-storage').addEventListener('click', function () {
-    getInputStorage('storage', 100, false)
-})
-//1tb ssd card
-document.getElementById('1tb-storage').addEventListener('click', function () {
-    getInputStorage('storage', 180, false)
-})
+//calculate total price
+function calculatePrice() {
+    const bestPrice = 1299;
+    //memory cost
+    const extraMemory = document.getElementById('memory');
+    const extraMemoryText = extraMemory.innerText;
+    const extraMemoryAmount = parseInt(extraMemoryText);
 
-//this function for delivery charge
-function getInputDelivery(charge, isIncrease) {
-    const inputMemory = document.getElementById('delivery');
-    inputMemory.innerText = charge;
-    const totalPrice = document.getElementById('total-price');
-    // const totalPriceText = totalPrice.innerText
-    if (isIncrease == true) {
-        totalPrice.innerText = 1299;
-    }
-    else if (isIncrease == false) {
-        totalPrice.innerText = 1319;
-    }
+    //storage cost
+    const extraStorage = document.getElementById('storage');
+    const extraStorageText = extraStorage.innerText;
+    const extraStorageAmount = parseInt(extraStorageText)
+
+    //delivery cost
+    const delivery = document.getElementById('delivery');
+    const deliveryText = delivery.innerText;
+    const deliveryAmount = parseInt(deliveryText);
+
+    //total price 
+    document.getElementById('total-price').innerText = bestPrice +
+        extraMemoryAmount + extraStorageAmount + deliveryAmount;
+    //total amount    
+    document.getElementById('total').innerText = bestPrice +
+        extraMemoryAmount + extraStorageAmount + deliveryAmount;
 }
-
-//free delivery
-document.getElementById('free-delivery').addEventListener('click', function () {
-    getInputDelivery(0, true)
-})
-//pay delivery
-document.getElementById('pay-delivery').addEventListener('click', function () {
-    getInputDelivery(20, false)
-
-})
 
 //coupon code 
 document.getElementById('apply-button').addEventListener('click', function () {
     const totalPrice = document.getElementById('total-price');
     const totalPriceText = totalPrice.innerText;
-    // const totalPriceAmount = parseInt(totalPriceText)
     const total = document.getElementById('total');
     const discount = (totalPriceText * 20) / 100;
     const couponCode = document.getElementById('coupon-code')
@@ -88,4 +41,35 @@ document.getElementById('apply-button').addEventListener('click', function () {
     if (couponCodeValue == 'stevekaku') {
         total.innerText = totalPriceText - discount
     }
+})
+
+//8gb memory button
+document.getElementById('8gb-memory').addEventListener("click", function () {
+    updatePrice('memory', 0)
+})
+
+//16gb memory button
+document.getElementById('16gb-memory').addEventListener("click", function () {
+    updatePrice('memory', 180)
+})
+
+//  256 gb ssd
+document.getElementById('256gb-storage').addEventListener("click", function () {
+    updatePrice('storage', 0)
+})
+//  512 gb ssd
+document.getElementById('512gb-storage').addEventListener("click", function () {
+    updatePrice('storage', 100)
+})
+//  1tb ssd
+document.getElementById('1tb-storage').addEventListener("click", function () {
+    updatePrice('storage', 180)
+})
+//  free delivery
+document.getElementById('free-delivery').addEventListener("click", function () {
+    updatePrice('delivery', 0)
+})
+//  pay delivery
+document.getElementById('pay-delivery').addEventListener("click", function () {
+    updatePrice('delivery', 20)
 })
